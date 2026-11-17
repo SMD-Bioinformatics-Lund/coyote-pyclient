@@ -79,7 +79,7 @@ page = client.read.samples.list(
         "assay": {"is_active": True},
         "configuration": {"environment": "production", "is_active": True},
     },
-    fields=["name", "asp_id", "aspc_id"],
+    fields=["name", "asp_id", "environment"],
     include=["assay", "configuration"],
 )
 ```
@@ -89,7 +89,8 @@ sample `list()` and `get()`; related metadata appears in each row's `related` ob
 Both filtering and inclusion require permission for the related resource. A missing
 relation excludes the sample when that relation is filtered; otherwise an included
 missing relation is null. The client never treats a related permission failure as
-an empty result.
+an empty result. A related filter may select at most 1,000 candidate catalog
+records; narrow the related predicates if the server returns 422 for this limit.
 
 ## Pagination and asynchronous reads
 
