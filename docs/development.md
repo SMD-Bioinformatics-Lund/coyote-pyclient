@@ -7,19 +7,45 @@ are required for these examples.
 ## Isolated editable installation
 
 ```bash
-uv venv .venv
-uv pip install --python .venv/bin/python -e ".[test]"
+uv sync --frozen --extra test --group dev
 .venv/bin/python -m pytest -q tests/smoke
 ```
 
 This environment installs only the client, HTTPX, Pydantic and test dependencies.
 The API, core and database adapter are not required. Source edits take effect in
-new processes without rebuilding a wheel. Reinstall after changing dependencies,
+new processes without rebuilding a wheel. Run `uv sync` after changing dependencies,
 package metadata or entry points.
+The lockfile is used for reproducible installs; no application package is installed.
 
 For coordinated server compatibility work, use a separate environment containing
 this client and the candidate core/server artifacts. The application does not install
 the client. The optional contract suite described below belongs to this repository.
+
+## Dependencies and requirements exports
+
+`pyproject.toml` is authoritative. `uv.lock` pins the resolved environment, including
+transitive dependencies. Update it deliberately after changing declared dependencies:
+
+```bash
+uv lock
+uv sync --frozen --extra test --group dev
+uv export --frozen --no-dev --no-emit-project --output-file requirements.txt
+uv export --frozen --extra test --group dev --no-emit-project --output-file requirements-dev.txt
+```
+
+Commit the lockfile and both generated exports together. Do not edit the exports by
+hand. They include hashes and omit the project itself. `requirements.txt` contains
+runtime dependencies; `requirements-dev.txt` also contains the test and build tools.
+Pip users can install the same runtime set and a retained wheel:
+
+```bash
+python -m pip install --require-hashes -r requirements.txt
+python -m pip install --no-deps dist/coyote_pyclient-1.0.0-py3-none-any.whl
+```
+
+Dependency changes require affected tests; ordinary source edits do not require a
+wheel build. Build and fresh-environment checks belong at packaging or release
+boundaries.
 
 ## Tests and coverage
 
@@ -44,7 +70,7 @@ server fields. New endpoints need synthetic success, permission and failure case
 ## Build
 
 ```bash
-uv build --package coyote-pyclient
+uv build --no-build-isolation
 ```
 
 This produces a wheel and source distribution in `dist/`. The package has no
@@ -52,8 +78,8 @@ workspace dependency or parent-directory build hook. Test retained artifacts in
 an isolated environment before release; see [releasing](releasing.md).
 
 The `.github/workflows/quality.yml` workflow runs version/changelog checks, smoke
-tests and a wheel build for development changes. Run full package coverage and
-artifact checks locally before release.
+tests, resource-read tests and a wheel build for development changes. Run full
+package coverage and artifact checks locally before release.
 
 ## Server compatibility checks
 

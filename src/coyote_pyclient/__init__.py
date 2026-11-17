@@ -15,10 +15,13 @@ from coyote_pyclient.errors import (
     ResourceNotLoadedError,
     ResponseValidationError,
 )
+from coyote_pyclient.read_models import ReadPage, ReadQuery
 from coyote_pyclient.resources import CoyoteClient
 
 __all__ = [
     "CoyoteClient",
+    "ReadQuery",
+    "ReadPage",
     "AsyncCoyoteClient",
     "AuthenticationError",
     "ConflictError",

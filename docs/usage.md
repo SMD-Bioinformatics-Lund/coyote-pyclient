@@ -113,6 +113,9 @@ null values become `None`; booleans, integers, strings, and lists retain their J
 types. ISO timestamps in metadata become Python `datetime` values. Metadata snapshots
 contain only the permitted field allowlist, excluding clinical content and file paths.
 
+For IDs, projections, combined predicates, counts and sample relationships, use
+the dedicated [resource retrieval interface](retrieval.md).
+
 ## Sample analyses and review workflows
 
 The remote client implementation is in `src/coyote_pyclient/`; it is
@@ -360,6 +363,6 @@ python -m pytest -q --cov --cov-config=pyproject.toml
 ```
 
 Run these commands from the client project after installing `.[test]`.
-The application maintains separate integration tests for API routes, permissions
-and the client/server contract. See [development](development.md) for isolated
+The application maintains its API and permission tests. This repository owns the
+optional client/server contract suite. See [development](development.md) for isolated
 installation, coverage and build instructions.

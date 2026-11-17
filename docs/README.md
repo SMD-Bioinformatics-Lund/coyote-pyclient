@@ -11,6 +11,7 @@ Choose a guide for your task:
 
 - [Install and make a request](getting-started.md).
 - [Use resources and reports](usage.md).
+- [Retrieve IDs, fields and related metadata](retrieval.md).
 - [Configure transport and authentication](configuration.md).
 - [Look up interfaces and errors](reference.md).
 - [Develop and test the client](development.md).

@@ -12,6 +12,7 @@ Start with the [package guide](docs/README.md).
 
 - [Getting started](docs/getting-started.md): install the package and make a first use.
 - [Usage](docs/usage.md): understand its supported workflow.
+- [Resource retrieval](docs/retrieval.md): select IDs, fields and related metadata.
 - [Configuration](docs/configuration.md): supply the inputs this package owns.
 - [Reference](docs/reference.md): find entry points, interfaces and errors.
 - [Development](docs/development.md): edit, test and build the package.

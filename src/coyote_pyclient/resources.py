@@ -31,6 +31,7 @@ from coyote_pyclient.metadata import (
 )
 from coyote_pyclient.models import Page, SessionResponse, SessionUser
 from coyote_pyclient.pagination import iter_pages
+from coyote_pyclient.reads import ReadResources
 from coyote_pyclient.transport import request_headers
 
 MetadataT = TypeVar("MetadataT", bound=ResourceMetadata)
@@ -283,6 +284,7 @@ class CoyoteClient:
         self._cookie_name = cookie_name
         self._token: str | None = None
         self._session_generation = 0
+        self.read = ReadResources(self)
         self.user: SessionUser | None = None
         from coyote_pyclient.clinical import SampleCollection
 

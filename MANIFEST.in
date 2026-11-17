@@ -1,6 +1,7 @@
 include client_build.py
 include LICENSE.txt COPYRIGHT.txt NOTICE.txt
 
+include requirements.txt requirements-dev.txt uv.lock
 include CHANGELOG.md
 include CONTRIBUTING.md
 recursive-include docs *.md *.svg

@@ -39,6 +39,7 @@ from coyote_pyclient.models import (
     SessionResponse,
     SessionUser,
 )
+from coyote_pyclient.reads import AsyncReadResources
 from coyote_pyclient.resources import CoyoteClient
 from coyote_pyclient.transport import request_headers
 
@@ -395,6 +396,7 @@ class AsyncCoyoteClient:
         self._cookie_name = cookie_name
         self._token: str | None = None
         self._session_generation = 0
+        self.read = AsyncReadResources(self)
         self.user: SessionUser | None = None
         self.api = AsyncApiEndpoint(self)
         self.samples = AsyncSamples(self, "samples", SampleMetadata, "live_samples")

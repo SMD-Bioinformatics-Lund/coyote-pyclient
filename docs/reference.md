@@ -6,6 +6,8 @@
 | `coyote_pyclient.AsyncCoyoteClient` | Asynchronous operations |
 | `coyote_pyclient.models` | Client-owned response models |
 | `coyote_pyclient.metadata` | Typed permitted metadata fields |
+| `coyote_pyclient.ReadQuery` | Validated named-resource read options |
+| `coyote_pyclient.ReadPage` | Bounded metadata or scalar results |
 | `coyote_pyclient.errors` | Structured HTTP and local resource errors |
 
 `CoyoteAPIError` retains status, request identity and safe server diagnostics.
@@ -23,7 +25,7 @@ pagination, asynchronous operations, reports and error handling.
 
 ## Metadata
 
-`resource.meta` returns an immutable, permitted metadata snapshot. Its fields
+`resource.data` returns an immutable, permitted metadata snapshot. Its fields
 are defined in `src/coyote_pyclient/metadata.py`:
 
 | Model | Resource |
@@ -37,3 +39,6 @@ are defined in `src/coyote_pyclient/metadata.py`:
 
 Optional fields may be unavailable on a particular server. Refresh the resource
 before relying on current metadata; permissions are checked on every request.
+
+See [resource retrieval](retrieval.md) for `client.read`, combined conditions,
+selected fields, aggregates and sample relations.

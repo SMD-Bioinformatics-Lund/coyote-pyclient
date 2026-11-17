@@ -5,6 +5,7 @@ import re
 import httpx
 import pytest
 from coyote_api.app.main import create_api_app
+from coyote_contracts.retrieval import ReadResource, ResourceReadPage, ResourceReadQuery
 
 from coyote_pyclient import AsyncCoyoteClient, CoyoteClient
 
@@ -28,6 +29,18 @@ def contract_transport():
         payload = {"name": "SYNTHETIC", "reported": False}
         if path.endswith("/auth/session"):
             payload = {"user": {"username": "synthetic"}}
+        elif "/resources/read/" in path:
+            name = path.split("/resources/read/", 1)[1].split("/", 1)[0]
+            query = ResourceReadQuery.model_validate_json(request.content).validate_resource(
+                ReadResource(name)
+            )
+            payload = ResourceReadPage(
+                items=[],
+                page=query.page,
+                per_page=query.per_page,
+                count=0 if query.operation == "count" else None,
+                exists=False if query.operation == "exists" else None,
+            ).model_dump(mode="json")
         elif path.endswith("/tiered"):
             payload = [{"_id": "synthetic-variant"}]
         elif path.endswith("/preview/bundle"):
@@ -79,3 +92,36 @@ async def test_asynchronous_typed_workflows_use_the_same_openapi_operations(cont
         await sample.reports.save("dna", preview_fingerprint=preview.meta.preview_fingerprint)
         await sample.reports.preview_bundle("dna")
     assert len(calls) == 7
+
+
+@pytest.mark.parametrize(
+    "collection", ["asp", "aspc", "samples", "isgl", "assay_groups", "diagnoses"]
+)
+def test_read_catalog_matches_server_routes_and_request_contract(contract_transport, collection):
+    transport, calls = contract_transport
+    with CoyoteClient("https://example.test/mounted", transport=transport) as client:
+        client.login_with_token("synthetic-token")
+        reader = getattr(client.read, collection)
+        assert reader.list().items == []
+        assert reader.ids().items == []
+        assert reader.count() == 0
+        assert reader.exists() is False
+    assert len(calls) == 5
+
+
+@pytest.mark.asyncio
+async def test_async_combined_sample_read_matches_server_contract(contract_transport):
+    transport, _ = contract_transport
+    async with AsyncCoyoteClient("https://example.test/mounted", transport=transport) as client:
+        await client.login_with_token("synthetic-token")
+        page = await client.read.samples.list(
+            asp_id="SYNTHETIC",
+            environment="production",
+            filters={"time_added": {"gte": "2026-01-01T00:00:00Z"}},
+            fields=["name", "asp_id"],
+            include=["assay", "configuration"],
+            related_filters={"configuration": {"environment": "production", "is_active": True}},
+        )
+        assert page.items == []
+        page = await client.read.samples.distinct("asp_id", reported=False)
+        assert page.items == []

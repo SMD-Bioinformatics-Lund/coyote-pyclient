@@ -2,6 +2,11 @@
 
 ## v1.0.0
 
+- Add sync/async named-resource reads for IDs, projections, combined predicates,
+  counts, existence and distinct values, with permission-checked sample relations.
+- Keep independent development reproducible with a uv lockfile and generated,
+  hashed runtime and development requirements exports.
+
 - Own optional server-contract checks alongside the standalone client tests.
 
 - Establish an independent repository with self-contained documentation, editable
@@ -13,5 +18,5 @@
 - Include Ram Nanduri's copyright and SMD affiliation, with Viktor Henmyr and
   Sailendra Pradhananga credited as contributors, in standalone distributions.
 - Provide synchronous and asynchronous HTTP-only clients with independent models.
-- Participate in editable uv workspace development without a core dependency.
+- Support editable uv development without a core or server dependency.
 - License this package under GNU GPL version 3 only.
