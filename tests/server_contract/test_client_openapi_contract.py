@@ -5,6 +5,7 @@ import re
 import httpx
 import pytest
 from coyote_api.app.main import create_api_app
+
 from coyote_pyclient import AsyncCoyoteClient, CoyoteClient
 
 
