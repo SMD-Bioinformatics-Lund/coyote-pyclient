@@ -24,7 +24,7 @@ consistent with the selected package version.
 4. Install each artifact in a fresh environment with only its declared dependencies
    and test extras. Run the smoke suite and full client tests from outside the source
    checkout. Confirm that importing the client requires no core, server or database adapter.
-5. Review a release PR from `dev` to `master`. After approval and merge, tag the
+5. Review a release PR from `dev` to `main`. After approval and merge, tag the
    release `vMAJOR.MINOR.PATCH` and retain the tested artifacts and release notes.
 
 The smoke workflow does not publish to a package index. Package-index publication
@@ -34,7 +34,7 @@ requires a separately configured and approved release process.
 
 The Coyote application consumes this repository through an exact Git commit in
 its uv sources and lockfile. Development takes place on `dev`; publication and a
-release tag follow approval of the release PR into `master`.
+release tag follow approval of the release PR into `main`.
 
 Before updating an application pin, run its client/API contract tests against the
 candidate client and server. Build retained deployment artifacts from that same

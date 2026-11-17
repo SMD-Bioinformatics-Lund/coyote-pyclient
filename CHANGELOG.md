@@ -1,6 +1,6 @@
 # HTTP client changelog
 
-## 1.0.0
+## v1.0.0
 
 - Establish an independent repository with self-contained documentation, editable
   installation, package-owned smoke/build CI and artifact release checks.

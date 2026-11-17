@@ -2,9 +2,9 @@ name: Client quality
 
 on:
   pull_request:
-    branches: [dev, master]
+    branches: [dev, main]
   push:
-    branches: [dev, master]
+    branches: [dev, main]
   workflow_dispatch:
 
 permissions:
@@ -33,7 +33,7 @@ jobs:
           from pathlib import Path
           import tomllib
           version = tomllib.loads(Path("pyproject.toml").read_text())["project"]["version"]
-          assert f"## {version}" in Path("CHANGELOG.md").read_text().splitlines(), "Add release notes for the package version"
+          assert f"## v{version}" in Path("CHANGELOG.md").read_text().splitlines(), "Add release notes for the package version"
           PY
       - name: Smoke tests
         run: python -m pytest -q tests/smoke
