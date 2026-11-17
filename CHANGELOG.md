@@ -2,6 +2,8 @@
 
 ## v1.0.0
 
+- Own optional server-contract checks alongside the standalone client tests.
+
 - Establish an independent repository with self-contained documentation, editable
   installation, package-owned smoke/build CI and artifact release checks.
 - Use the language-specific distribution name `coyote-pyclient` and import namespace

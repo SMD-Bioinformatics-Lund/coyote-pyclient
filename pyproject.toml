@@ -51,7 +51,7 @@ quote-style = "double"
 indent-style = "space"
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests/unit", "tests/smoke"]
 pythonpath = ["tests"]
 addopts = "-ra --strict-markers --strict-config --import-mode=importlib"
 asyncio_mode = "auto"

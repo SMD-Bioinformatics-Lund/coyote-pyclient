@@ -17,11 +17,9 @@ The API, core and database adapter are not required. Source edits take effect in
 new processes without rebuilding a wheel. Reinstall after changing dependencies,
 package metadata or entry points.
 
-For coordinated application work, install this checkout editable into the
-application virtual environment using `uv pip install --python PATH_TO_PYTHON -e .`.
-The application owns its client/API contract tests. They are separate from this
-package's tests and should run before adopting a new client commit. Keep local
-editable overrides out of the application lockfile.
+For coordinated server compatibility work, use a separate environment containing
+this client and the candidate core/server artifacts. The application does not install
+the client. The optional contract suite described below belongs to this repository.
 
 ## Tests and coverage
 
@@ -56,3 +54,11 @@ an isolated environment before release; see [releasing](releasing.md).
 The `.github/workflows/quality.yml` workflow runs version/changelog checks, smoke
 tests and a wheel build for development changes. Run full package coverage and
 artifact checks locally before release.
+
+## Server compatibility checks
+
+`tests/server_contract` contains opt-in checks against installed Coyote core/server
+artifacts. Install the candidate artifacts in a dedicated environment and run
+`python -m pytest tests/server_contract`. These checks use synthetic HTTP transports
+and do not contact a database or deployment. They are excluded from the default
+client suite, which requires no application packages.
