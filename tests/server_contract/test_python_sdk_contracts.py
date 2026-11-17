@@ -8,8 +8,8 @@ from typing import get_args
 
 import httpx
 import pytest
-from coyote_contracts import resource_metadata as server_metadata
-from coyote_contracts.resource_fields import (
+from coyote.contracts import resource_metadata as server_metadata
+from coyote.contracts.resource_fields import (
     AssayField,
     ConfigurationField,
     DiagnosisField,

@@ -4,8 +4,8 @@ import re
 
 import httpx
 import pytest
+from coyote.contracts.retrieval import ReadResource, ResourceReadPage, ResourceReadQuery
 from coyote_api.app.main import create_api_app
-from coyote_contracts.retrieval import ReadResource, ResourceReadPage, ResourceReadQuery
 
 from coyote_pyclient import AsyncCoyoteClient, CoyoteClient
 
